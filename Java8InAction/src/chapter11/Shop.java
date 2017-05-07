@@ -23,17 +23,24 @@ public class Shop {
 	}
 
 	public String getPrice(final String product) {
-		final double price = calculatePrice(product);
+		final double price = calculatePrice(product, ()->Util.delay());
+		final Discount.Code code = Discount.Code.values()[this.random.nextInt(Discount.Code.values().length)];
+		return this.name + ":" + price + ":" + code;
+	}
+	
+	public String getPriceRandom(final String product) {
+		final double price = calculatePrice(product, ()->Util.randomDelay());
 		final Discount.Code code = Discount.Code.values()[this.random.nextInt(Discount.Code.values().length)];
 		return this.name + ":" + price + ":" + code;
 	}
 
-	public double getUnitPrice(final String product) {
-		return calculatePrice(product);
-	}
 
-	private double calculatePrice(final String product) {
-		Util.delay();
+	public double getUnitPrice(final String product) {
+		return calculatePrice(product,  ()->Util.delay());
+	}
+	
+	private double calculatePrice(final String product, Delay d) {
+		d.delay();
 		return Util.format(this.random.nextDouble() * product.charAt(0) + product.charAt(1));
 	}
 

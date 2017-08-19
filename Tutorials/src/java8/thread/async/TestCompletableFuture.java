@@ -19,7 +19,7 @@ public class TestCompletableFuture {
 	private static ExecutorService service = Executors.newCachedThreadPool();
 
 	public static void main(final String[] args) {
-		CompletableFuture.runAsync(() -> {
+		final CompletableFuture<Void> future = CompletableFuture.runAsync(() -> {
 			try {
 				TimeUnit.SECONDS.sleep(3);
 			} catch (final InterruptedException e) {
@@ -29,7 +29,15 @@ public class TestCompletableFuture {
 			System.out.println("running async task");
 		}, service);
 		// utility testing method
-		System.out.println("damonx");
+		while (!future.isDone()) {
+			try {
+				TimeUnit.MILLISECONDS.sleep(500);
+			} catch (final InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			System.out.print("+");
+		}
 	}
 }
 

@@ -24,7 +24,7 @@ public class LimitSkipTest {
 		final List<String> personList2 = persons.stream().map(Person::getName).limit(10).skip(3).collect(Collectors.toList());
 		System.out.println(personList2);
 
-		final List<Person> persons1 = new ArrayList();
+		final List<Person> persons1 = new ArrayList<>();
 		for (int i = 1; i <= 5; i++) {
 			final Person person = new Person(i, "name" + i);
 			persons1.add(person);

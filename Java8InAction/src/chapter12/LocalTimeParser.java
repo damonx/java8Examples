@@ -2,7 +2,6 @@ package chapter12;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.time.temporal.ChronoField;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalAdjuster;
@@ -11,7 +10,6 @@ import java.time.temporal.TemporalAdjusters;
 public class LocalTimeParser {
   public static void main(String[] args) {
 	  LocalDate date = LocalDate.parse("2014-03-19");
-	  LocalTime time = LocalTime.parse("13:34:20");
 	  
 	  //LocalDate is immutable
 	  System.out.println("before date: " + date.toString());

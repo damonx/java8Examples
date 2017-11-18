@@ -21,7 +21,7 @@ import chapter4.model.Dish;
 public class DishDemo {
 
 	public static void main(final String[] args) {
-		final List<Dish> menu =DishFactory.createMenu();
+		final List<Dish> menu = DishFactory.createMenu();
 		final List<Dish> veg = menu.stream().filter(Dish::isVegetarian).collect(toList());
 		System.out.println(veg);
 
@@ -42,4 +42,3 @@ public class DishDemo {
 	}
 
 }
-

@@ -9,6 +9,7 @@
  * prosecution.
  */
 package chapter6;
+
 import static java.util.Comparator.comparingInt;
 import static java.util.stream.Collectors.averagingInt;
 import static java.util.stream.Collectors.collectingAndThen;
@@ -16,6 +17,7 @@ import static java.util.stream.Collectors.counting;
 import static java.util.stream.Collectors.groupingBy;
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.maxBy;
+import static java.util.stream.Collectors.partitioningBy;
 import static java.util.stream.Collectors.reducing;
 import static java.util.stream.Collectors.summarizingInt;
 import static java.util.stream.Collectors.summingInt;
@@ -42,15 +44,15 @@ public class DishCollector {
 		final String shortMenu = menu.stream().map(Dish::getName).collect(joining(","));
 		System.out.println(shortMenu);
 
-		//collect
+		// collect
 		final int totalCalories = menu.stream().collect(reducing(0, Dish::getCalories, Integer::sum));
 		System.out.println(totalCalories);
 
 		// GroupingBy
 		final Map<Dish.Type, List<Dish>> dishesByType = menu.stream().collect(groupingBy(Dish::getType));
 		System.out.println(dishesByType);
-		final Map<CaloricLevel, List<Dish>> dishesByCaloricLevel = menu.stream().collect(groupingBy(dish->{
-			if(dish.getCalories()<=400) {
+		final Map<CaloricLevel, List<Dish>> dishesByCaloricLevel = menu.stream().collect(groupingBy(dish -> {
+			if (dish.getCalories() <= 400) {
 				return CaloricLevel.DIET;
 			} else if (dish.getCalories() <= 700) {
 				return CaloricLevel.NORMAL;
@@ -73,7 +75,7 @@ public class DishCollector {
 				})));
 		System.out.println(dishesByTypeCaloricLevel);
 
-		//Other groupings
+		// Other groupings
 		final Map<Dish.Type, Long> typesCount = menu.stream().collect(groupingBy(Dish::getType, counting()));
 		System.out.println(typesCount);
 
@@ -84,6 +86,17 @@ public class DishCollector {
 		final Map<Dish.Type, Dish> mostCaloricByType1 = menu.stream()
 				.collect(groupingBy(Dish::getType, collectingAndThen(maxBy(comparingInt(Dish::getCalories)), Optional::get)));
 		System.out.println(mostCaloricByType1);
+
+		// Partition
+		final Map<Boolean, List<Dish>> partitionMenu = menu.stream().collect(partitioningBy(Dish::isVegetarian));
+		System.out.println(partitionMenu);
+		final Map<Boolean, Map<Dish.Type, List<Dish>>> vegetarianDishesByType = menu.stream()
+				.collect(partitioningBy(Dish::isVegetarian, groupingBy(Dish::getType)));
+		System.out.println(vegetarianDishesByType);
+
+		final Map<Boolean, Dish> mostCaloricPartitionedByVegetarian = menu.stream()
+				.collect(partitioningBy(Dish::isVegetarian, collectingAndThen(maxBy(comparingInt(Dish::getCalories)), Optional::get)));
+		System.out.println(mostCaloricPartitionedByVegetarian);
+
 	}
 }
-
